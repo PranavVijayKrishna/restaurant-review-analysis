@@ -17,3 +17,11 @@ class SentimentModel:
         self.ps = PorterStemmer()
         self.stop_words = set(stopwords.words('english'))
         self.stop_words.discard('not')
+
+    
+    def clean_review(self, text: str):
+        review = re.sub('[^a-zA-Z]', ' ', text)
+        review = review.lower().split()
+        review = [self.ps.stem(word) for word in review if word not in self.stop_words]
+
+        return ' '.join(review)
